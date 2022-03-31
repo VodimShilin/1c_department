@@ -183,13 +183,9 @@ private:
                 std::cerr << "bad writing to server\n";
                 assert(false);
             }
-            std::cout << content_ << "\n" << data_ptr->offset << " " << data_ptr->size << " " << data::TransferDataSize << "\n";
-            for (int i = 0; i < data_ptr->size - data::TransferDataSize; ++i) {
-                char c = buf[data::TransferDataSize + i];
-                content_[data_ptr->offset + i] = buf[data::TransferDataSize + i];
-                std::cout << buf[data::TransferDataSize + i] << "\n";
-            }
-            memcpy(content_ + data_ptr->offset, buf + data::TransferDataSize, data_ptr->size - data::TransferDataSize);
+            std::cout  << data_ptr->offset << " " << data_ptr->size << " " << data::TransferDataSize << "\n";
+            write(file_fd_, buf + data::TransferDataSize, data_ptr->size - data::TransferDataSize);
+//            memcpy(content_ + data_ptr->offset, buf + data::TransferDataSize, data_ptr->size - data::TransferDataSize);
             remaining_size -= read_size - data::TransferDataSize;
         }
         assert(false);
